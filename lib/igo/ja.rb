@@ -2,9 +2,10 @@ require 'jisho_api'
 require 'nokogiri'
 require 'open-uri'
 require 'uri'
+require 'nagisa'
 
 module Igo
-  module Jisho
+  module Ja
 
     SEARCH_URL = "https://jisho.org/search/"
 
@@ -21,9 +22,13 @@ module Igo
       # def kana str
       # end
     end
+
+    def tag str, s: false, ns: 0
+
+    end
+
   end
 
-  Ja = Jisho
 
   class << self
     def 日本語

@@ -22,17 +22,28 @@ module Igo
         PinYin.of_string(token, :ascii)
       end
 
-      def cut str, s: false, tag: false
-        if tag
-          s ? Tagging.tag(str).map{_1.to_a.flatten.join("_")}.join(" ") : Tagging.tag(str).map{_1.to_a.flatten}
-        else
-          res = Segment.cut(str)
-          s ? res.join(" ") : res
+      def cut str, s: false, tag: false, by: "jieba"
+        case by
+        when /jieba/
+          if tag
+            s ? Tagging.tag(str).map{_1.to_a.flatten.join("_")}.join(" ") : Tagging.tag(str).map{_1.to_a.flatten}
+          else
+            res = Segment.cut(str)
+            s ? res.join(" ") : res
+          end
+        when /thulac/
+          Thulac.cut(str, text: s)
         end
       end
 
-      def tag str, s: false
-        s ? Tagging.tag(str).map{_1.to_a.flatten.join("_")}.join(" ") : Tagging.tag(str).map{_1.to_a.flatten}
+      def tag str, s: false, by: 0
+        case by
+        when /thu/
+          require './thulac'
+          Thulac.cut str, text: s
+        else
+          s ? Tagging.tag(str).map{_1.to_a.flatten.join("_")}.join(" ") : Tagging.tag(str).map{_1.to_a.flatten}
+        end
       end
 
       def termfreq string, num
