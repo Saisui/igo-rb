@@ -3,15 +3,17 @@ require 'ruby_pinyin'
 module Igo
   module Zh
 
-    Tagging = JiebaRb::Tagging
+    Tagging = JiebaRb::Tagging.new
     Segment = JiebaRb::Segment.new mode: :mix, user_dict: "ext/cppjieba/dict/user.dict.utf8"
     Keyword = JiebaRb::Keyword.new
 
     # @params chinese: String
     # @returns pinyin_numeraltone: String
     class << self
-      def pinyin str
-        str.each_char.map{PinYin.of_string(_1, :ascii)}
+      def pinyin str, s: false
+        res = str.each_char.map{PinYin.of_string(_1, :ascii)}.flatten
+        s ? res.join(" ") : res
+
       end
       def pinyin_tonal_s str
         PinYin.sentence(token, :ascii)
@@ -24,7 +26,8 @@ module Igo
         if tag
           s ? Tagging.tag(str).map{_1.to_a.flatten.join("_")}.join(" ") : Tagging.tag(str).map{_1.to_a.flatten}
         else
-          Segment.cut(str)
+          res = Segment.cut(str)
+          s ? res.join(" ") : res
         end
       end
 
