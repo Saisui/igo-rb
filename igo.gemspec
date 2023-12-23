@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Easy seperate/parse Japanse, Chinese word and syntax."
   spec.description = "It is easy."
   spec.homepage = "https://github.com/saisui/igo-rb"
-  spec.license = "MIT"
+  spec.license = "MPL-2.0"
   spec.required_ruby_version = ">= 2.6.0"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
