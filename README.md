@@ -79,6 +79,7 @@ z.freq "全世界的无产者，联合起来！", 5
 __MPL 2.0__
 
 ## Requires
+
 - `jieba-rb`
 - `nokogiri`
 - `open-uri`
