@@ -127,11 +127,13 @@ module Igo
         Keyword.extract string, num
       end
 
+      alias 拼音 pinyin
       alias 分词 cut
       alias 标记 tag
+      alias 词频 termfreq
+
       alias freq termfreq
       alias tf termfreq
-      alias 词频 freq
       alias freq_word freq
     end
   end
