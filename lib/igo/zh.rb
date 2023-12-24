@@ -54,6 +54,7 @@ module Igo
     Tagging = JiebaRb::Tagging.new
     Segment = JiebaRb::Segment.new mode: :mix, user_dict: "ext/cppjieba/dict/user.dict.utf8"
     Keyword = JiebaRb::Keyword.new
+    HANZI_ORDS = [12295..12295, 13312..19903, 19968..40959, 63744..64255, 131072..173791, 173824..177983, 194560..195103]
 
     class << self
       # ### Pinyin :: 拼音
@@ -67,10 +68,9 @@ module Igo
       # @returns pinyin_numeraltone: String
       def pinyin str, s: false, ommit: " "
         # tone 1, 2, 3, 4, 5
-        hanzi_ords = [13312..19903, 19968..40959, 63744..64255, 131072..173791, 173824..177983, 194560..195103]
 
         res = str.split(/(?=[^A-Z\d])|(?<=[^A-Z\d])/i).map do |ch|
-            if hanzi_ords.map{|range| range.include? ch.ord}.any?
+            if HANZI_ORDS.map{|range| range.include? ch.ord}.any?
               py = PinYin.sentence(ch, :ascii)
               py =~ /\d/ ? py : (py+"5")
             else ch
