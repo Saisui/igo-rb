@@ -94,7 +94,7 @@ module Igo
           end
         when /thulac/
           require_relative 'thulac'
-          res = Thulac.cut(str).map{_1}
+          res = Thulac.cut(str).map(&:first)
           sep = s.is_a?(String) ? s : " "
           s ? res.join(sep) : res
         end
