@@ -72,7 +72,7 @@ module Igo
         res = str.split(/(?=[^A-Z\d])|(?<=[^A-Z\d])/i).map do |ch|
             if HANZI_ORDS.map{|range| range.include? ch.ord}.any?
               py = PinYin.sentence(ch, :ascii)
-              py =~ /\d/ ? py : (py+"5")
+              py == "〇" ? "ling2" : (py =~ /\d/ ? py : (py+"5"))
             else ch
             end
           end.flatten.select{_1 != s and _1 != ommit}
