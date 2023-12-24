@@ -1,8 +1,6 @@
-require 'jisho_api'
 require 'nokogiri'
 require 'open-uri'
 require 'uri'
-require 'nagisa'
 
 module Igo
   module Ja

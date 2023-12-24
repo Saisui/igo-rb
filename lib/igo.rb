@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative "igo/version"
-require 'jisho_api'
 require 'jieba_rb'
 require 'igo/zh'
 require 'igo/ja'

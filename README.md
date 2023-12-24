@@ -19,10 +19,9 @@ zh.tag "全世界的无产者，联合起来！", s: true
 gem install igo
 ```
 
-for use `jisho-api`, `Thulac` in __Python__, you need to install:
+for use `Thulac` in __Python__, you need to install:
 
 ```cmd
-pip install jisho-api
 
 pip install thulac
 
