@@ -67,7 +67,16 @@ module Igo
       # @returns pinyin_numeraltone: String
       def pinyin str, s: false, ommit: " "
         # tone 1, 2, 3, 4, 5
-        res = str.split(/(?=[^A-Z\d])|(?<=[^A-Z\d])/i).map{|ch| ch.ord > 0x4e00 ? (py = PinYin.of_string(ch, :ascii)[0]; py =~ /\d/ ? py : (py+"5")) : ch }.flatten.select{_1 != s and _1 != ommit}
+        hanzi_ords = [13312..19903, 19968..40959, 63744..64255, 131072..173791, 173824..177983, 194560..195103]
+
+        res = str.split(/(?=[^A-Z\d])|(?<=[^A-Z\d])/i).map do |ch|
+            if hanzi_ords.map{|range| range.include? ch.ord}.any?
+              py = PinYin.sentence(ch, :ascii)
+              py =~ /\d/ ? py : (py+"5")
+            else ch
+            end
+          end.flatten.select{_1 != s and _1 != ommit}
+
         sep = s.is_a?(String) ? s : " "
         s ? res.join(sep) : res
 
