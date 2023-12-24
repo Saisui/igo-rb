@@ -62,8 +62,8 @@ z = Igo::Zh
 ```ruby
 z.pinyin "全世界的无产者，联合起来！"
 #=> ["quan2", "shi4", "jie4", "de5", "wu2", "chan3", "zhe3", "lian2", "he2", "qi3", "lai2"]
-z.pinyin "全世界的无产者，联合起来！", s: 1
-#=> "quan2 shi4 jie4 de wu2 chan3 zhe3 lian2 he2 qi3 lai2"
+z.pinyin "全世界的无产者，联合起来！", s: " "
+#=> "quan2 shi4 jie4 de5 wu2 chan3 zhe3 lian2 he2 qi3 lai2"
 ```
 
 ### seperate word :: 分词
@@ -71,8 +71,8 @@ z.pinyin "全世界的无产者，联合起来！", s: 1
 ```ruby
 z.cut "全世界的无产者，联合起来！"
 #=> ["全世界", "的", "無產階級", "，", "聯合", "起來", "！"]
-z.cut "全世界的无产者，联合起来！", s: true
-#=> "全世界 的 无产者 ！ 联合 起来 ！"
+z.cut "全世界的无产者，联合起来！", s: "/"
+#=> "全世界/的/无产者/！/联合/起来/！"
 ```
 ### Taging word :: 标注词类
 
