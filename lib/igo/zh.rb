@@ -32,6 +32,7 @@ module Igo
             s ? res.join(" ") : res
           end
         when /thulac/
+          require_relative 'thulac'
           Thulac.cut(str, text: s)
         end
       end
@@ -39,7 +40,7 @@ module Igo
       def tag str, s: false, by: 0
         case by
         when /thu/
-          require './thulac'
+          require_relative 'thulac'
           Thulac.cut str, text: s
         else
           s ? Tagging.tag(str).map{_1.to_a.flatten.join("_")}.join(" ") : Tagging.tag(str).map{_1.to_a.flatten}
