@@ -70,8 +70,9 @@ module Igo
         # else cutted.map(&:last)
         # end
 
-        tag(str, s: s, lr: lr, tag: false, kana: true)
+        tag(str, s: s, lr: lr, tag: false, kana: true, kana_only: true)
       end
+
       def ruby str, s: false, lr: "（）"
         # str = URI.encode_www_form_component(str)
         # doc = Nokogiri::HTML(URI.open(SEARCH_URL + str).read)
@@ -93,7 +94,7 @@ module Igo
         # else cutted
         # end
 
-        tag(str, s: s, lr: lr, kana: 1, tag: false)
+        tag(str, s: s, lr: lr, kana: true, tag: false)
 
       end
       # TODO: tag word function
@@ -102,7 +103,7 @@ module Igo
 
       end
 
-      def tag str, s: false, ns: 0, lr: "（）", sp:"_", short: false, tag: true, kana: false, timeout: 10
+      def tag str, s: false, ns: 0, lr: "（）", sp:"_", short: false, tag: true, kana: false, timeout: 10, kana_only: false
 
         def async_query(arr, timeout=0, &block)
           promises = arr.map do |element|
@@ -126,7 +127,7 @@ module Igo
           results
         end
 
-        def _tag str, vis_kana: true, vis_tag: true
+        def _tag str
           str = URI.encode_www_form_component(str)
           doc = Nokogiri::HTML(URI.open(SEARCH_URL + str).read)
 
@@ -135,35 +136,41 @@ module Igo
             _1&.css(".japanese_word__furigana").text||nil, # kana
             _1.attr("data-pos")] # tag
           end
-          # .map{_1.values_at(* [0, vis_kana ? 1 : 0, vis_tag ? 2 : 0].uniq)}
         end
 
-        def _stringify cutted, s: "/", lr: "（）", sp:"_", short: false, vis_tag: true, vis_kana: true
+        def _stringify cutted, s: "/", lr: "（）", sp:"_", short: false, vis_tag: true, vis_kana: true, kana_only: false
           # cutted.each{ _1[1] = nil } unless vis_kana
           # cutted.each{ _1[2] = nil } unless vis_tag
-          unless s.is_a?(String)
-            s = " "
+          if kana_only
+            return cutted.map do
+              (_1[1].empty? ? _1[0] : _1[1]) +
+              ((vis_kana && _1[2]) ? (sp + _1[2]) : "")
+            end.join(s)
+          else
+            unless s.is_a?(String)
+              s = " "
+            end
+            left, right = case lr
+            when String then (lr*2).split("").values_at(0, -1)
+            when Array then lr
+            end
+            cutted.map do
+              _1[0] +
+              ((vis_tag && !_1[1]&.empty? )? (left + _1[1] + right) : "") +
+              ((vis_kana && _1[2]) ? (sp + _1[2]) : "")
+            end.join(s)
           end
-          left, right = case lr
-          when String then (lr*2).split("").values_at(0, -1)
-          when Array then lr
-          end
-          cutted.map do
-            _1[0] +
-            ((vis_tag && !_1[1]&.empty? )? (left + _1[1] + right) : "") +
-            ((vis_kana && _1[2]) ? (sp + _1[2]) : "")
-          end.join(s)
         end
 
-        def singo_proc str, s: false, ns: 0, lr: "（）", sp:"_", short: false, vis_tag: true, vis_kana: true
-          cutted = _tag str, vis_kana: vis_kana, vis_tag: vis_tag
+        def singo_proc str, s: false, ns: 0, lr: "（）", sp:"_", short: false, vis_tag: true, vis_kana: true, kana_only: false
+          cutted = _tag str
           if short
             short = short.is_a?(Integer) ? short : 4
             cutted = cutted.map{[ *_1[0,2],      (_1[2][0, short].downcase rescue nil)   ]}
           end
 
           if s
-            _stringify cutted, s: s, lr: lr, sp: sp, short: short, vis_tag: vis_kana, vis_kana: vis_tag
+            _stringify cutted, s: s, lr: lr, sp: sp, short: short, vis_tag: vis_kana, vis_kana: vis_tag, kana_only: kana_only
           else
             cutted = cutted.map{_1.values_at(* [0, vis_kana ? 1 : 0, vis_tag ? 2 : 0].uniq)}
             cutted[0].size == 1 ? cutted.flatten : cutted
@@ -172,10 +179,10 @@ module Igo
 
         case str
         when String
-          singo_proc str, s: s, ns: ns, lr: lr, sp: sp, short: short, vis_tag: tag, vis_kana: kana
+          singo_proc str, s: s, ns: ns, lr: lr, sp: sp, short: short, vis_tag: tag, vis_kana: kana, kana_only: kana_only
         when Array
           async_query str, timeout do
-            singo_proc _1, s: s, ns: ns, lr: lr, sp: sp, short: short, vis_tag: tag, vis_kana: kana
+            singo_proc _1, s: s, ns: ns, lr: lr, sp: sp, short: short, vis_tag: tag, vis_kana: kana, kana_only: kana_only
           end
         end
         # TODO
