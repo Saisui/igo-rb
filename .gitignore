@@ -9,5 +9,8 @@
 
 # rspec failure tracking
 .rspec_status
+*.ipynb
 
 /.ignore_pls/
+
+TODO

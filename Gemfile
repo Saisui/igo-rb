@@ -11,8 +11,9 @@ gem "rspec", "~> 3.0"
 
 gem "standard", "~> 1.3"
 
-gem "jieba_rb"
-gem "chinese_pinyin"
-gem "open-uri"
-gem "nokogiri"
-gem "pycall"
+gem 'jieba_rb', '~> 0.0.5'
+gem 'chinese_pinyin', '~> 1.1'
+gem 'open-uri', '~> 0.4.1'
+gem 'nokogiri', '~> 1.15', '>= 1.15.5'
+gem 'pycall', '~> 1.5', '>= 1.5.1'
+gem 'concurrent-ruby', '~> 1.2', '>= 1.2.2'
