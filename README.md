@@ -52,7 +52,7 @@ reference:
 
 下ノ関数は、暫く未完成です、ごめんね：
 
-`j.romaji`
+`j.dict`
 
 ## 用法 :: Usage / Zh
 

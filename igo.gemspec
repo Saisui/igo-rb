@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ["kozmozenjel@outlook.com"]
 
   spec.summary = "Easy seperate/parse Japanse, Chinese word and syntax."
-  spec.description = "It is easy."
+  spec.description = "A gem for chinese / japanese word cut, pronounciation, hiragana, kana."
   spec.homepage = "https://github.com/saisui/igo-rb"
   spec.license = "MPL-2.0"
   spec.required_ruby_version = ">= 2.6.0"
