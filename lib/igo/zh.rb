@@ -113,7 +113,7 @@ module Igo
         case by
         when /thu/
           require_relative 'thulac'
-          cutted = (Thulac.cut str).to_a
+          cutted = Thulac.cut(str).to_a
           if s
             s = s.is_a?(String) ? s : " "
             cutted.map{_1.join(sp)}.join(s)
