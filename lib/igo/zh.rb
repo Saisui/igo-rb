@@ -109,11 +109,16 @@ module Igo
       #   z.tag "全世界的无产者，联合起来！", s: true
       #   #=> "全世界_n 的_uj 无产者_n ，_x 联合_v 起来_v ！_x"
       #
-      def tag str, s: false, by: 0
+      def tag str, s: false, by: 0, sp: "_"
         case by
         when /thu/
           require_relative 'thulac'
-          Thulac.cut str, text: s
+          cutted = (Thulac.cut str).to_a
+          if s
+            s = s.is_a?(String) ? s : " "
+            cutted.map{_1.join(sp)}.join(s)
+          else cutted
+          end
         else
           s ? Tagging.tag(str).map{_1.to_a.flatten.join("_")}.join(" ") : Tagging.tag(str).map{_1.to_a.flatten}
         end
