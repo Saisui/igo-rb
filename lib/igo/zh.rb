@@ -1,6 +1,5 @@
 require 'ruby_pinyin'
-require 'chinese_convt'
-
+require_relative 'zh_convt'
 
 module Igo
   # # 用法 :: Usage / Zh
@@ -142,12 +141,13 @@ module Igo
       alias freq_word freq
 
       # 繁体转简体
-      def to_chs text
-        ChineseConverter.convert(text,  :traditional, :simplified)
+      def to_cht( str )
+        zh_convt( [0] , str )
       end
+
       # 简体转繁体
-      def to_cht text
-        ChineseConverter.convert(text, :simplified, :traditional)
+      def to_chs( str )
+        zh_convt( [1] , str )
       end
     end
   end

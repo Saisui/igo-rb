@@ -27,13 +27,7 @@ module Igo
         return "[#{$!}]"
       end
     end
-    def self.to_cht( str )
-      Zh.zh_convt( [0] , str )
-    end
 
-    def self.to_chs( str )
-      Zh.zh_convt( [1] , str )
-    end
 
     def self.to_tw( str )
       Zh.zh_convt( [2,0] , str )
