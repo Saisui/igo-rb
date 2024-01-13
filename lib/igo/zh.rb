@@ -1,5 +1,5 @@
 require 'ruby_pinyin'
-
+require 'chinese_convt'
 
 
 module Igo
@@ -140,6 +140,15 @@ module Igo
       alias freq termfreq
       alias tf termfreq
       alias freq_word freq
+
+      # 繁体转简体
+      def to_chs text
+        ChineseConverter.convert(text,  :traditional, :simplified)
+      end
+      # 简体转繁体
+      def to_cht text
+        ChineseConverter.convert(text, :simplified, :traditional)
+      end
     end
   end
   def self.中文

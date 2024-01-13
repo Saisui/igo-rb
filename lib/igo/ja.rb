@@ -194,6 +194,16 @@ module Igo
         # TODO
       end
     end
+
+
+    def initialize str
+      @str = str
+      url_str = URI.encode_www_form_component(str)
+      @doc = Nokogiri::HTML(URI.open(SEARCH_URL + url_str).read)
+    end
+
+    def fmt
+    end
   end
 
 
